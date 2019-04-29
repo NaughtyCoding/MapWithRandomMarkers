@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Ubilabs Task</title>
+    <style>
+      #map {
+        height: 100%;
+        width: 100%;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto', 'sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+      #floating-panel {
+        margin-left: -52px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        var NaughtyCoding = { lat: 53.594918, lng: 10.103038 }
+
+        var myLatlng = new google.maps.LatLng(53.594918, 10.103038)
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 7,
+          center: myLatlng,
+        })
+
+        var west = new google.maps.LatLng(52.500249, 1.394679)
+        var east = new google.maps.LatLng(51.442588, 22.996872)
+        var lngSpan = east.lng() - west.lng()
+        var latSpan = east.lat() - west.lat()
+
+        var markers = []
+
+        for (var i = 1; i < 200; i++) {
+          var location = new google.maps.LatLng(
+            west.lat() + latSpan * Math.random(),
+            west.lng() + lngSpan * Math.random()
+          )
+
+          var marker = new google.maps.Marker({
+            position: location,
+            map: map,
+          })
+
+          markers.push(marker)
+        }
+
+        var contentString =
+          '<div id="content">' +
+          '</div>' +
+          '<h1 id="firstHeading" class="firstHeading">NaughtyCoding</h1>' +
+          '<div id="bodyContent">' +
+          '<p><b>Junior Web Developer</b><br>Looking for entry position within frontend' +
+          '<a href="https://github.com/NaughtyCoding">' +
+          '<br>https://github.com/NaughtyCoding</a> ' +
+          '</div>' +
+          '</div>'
+
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString,
+        })
+
+        var marker = new google.maps.Marker({
+          position: NaughtyCoding,
+          map: map,
+          draggable: true,
+          animation: google.maps.Animation.DROP,
+          title: 'Ubilabs',
+        })
+        marker.addListener('click', function() {
+          infowindow.open(map, marker)
+        })
+      }
+    </script>
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyoreeFN0rmEfpQUcWD1lgRwxslAjCUIw&callback=initMap"
+    ></script>
+  </body>
+</html>
